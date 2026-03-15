@@ -46,6 +46,15 @@ export default function Calculator() {
         }))
         return result
 
+      case sign === "/":
+        result = parseFloat(left) / parseFloat(right)
+        setValues((prev) => ({
+          ...prev,
+          leftOperand: String(result),
+          rightOperand: "",
+        }))
+        return result
+
       default:
         return 0
     }
@@ -105,7 +114,10 @@ export default function Calculator() {
           <OperatorKey value="1/x" onPress={() => {}} />
           <OperatorKey value="x^2" onPress={() => {}} />
           <OperatorKey value="x^3" onPress={() => {}} />
-          <OperatorKey value="/" onPress={() => {}} />
+          <OperatorKey
+            value="/"
+            onPress={(value) => handleOperandKeyPress(value)}
+          />
         </div>
         <div className="grid grid-cols-4 gap-1 gap-y-1">
           {numbers.slice(0, 3).map((number) => (
