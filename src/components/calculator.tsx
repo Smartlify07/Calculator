@@ -1,5 +1,7 @@
 import { useState } from "react"
-import { Button } from "./ui/button"
+import { Button, buttonVariants } from "./ui/button"
+import { cn } from "@/lib/utils"
+import type { VariantProps } from "class-variance-authority"
 
 const numbers = [7, 8, 9, 6, 5, 4, 3, 2, 1, 0]
 export default function Calculator() {
@@ -28,6 +30,15 @@ export default function Calculator() {
         return result
       case sign === "-":
         result = parseFloat(left) - parseFloat(right)
+        setValues((prev) => ({
+          ...prev,
+          leftOperand: String(result),
+          rightOperand: "",
+        }))
+        return result
+
+      case sign === "X":
+        result = parseFloat(left) * parseFloat(right)
         setValues((prev) => ({
           ...prev,
           leftOperand: String(result),
@@ -83,28 +94,31 @@ export default function Calculator() {
         sign={values.sign}
       />
 
-      <div className="gap grid">
-        <div className="grid grid-cols-4 gap-0.5">
-          <NumberKey
-            value={7}
-            onPress={(value) => handleNumberKeyPress(value)}
-          />
-          <NumberKey value={8} onPress={() => {}} />
-          <NumberKey value={9} onPress={() => {}} />
+      <div className="gap grid gap-1">
+        <div className="grid grid-cols-4 gap-1 gap-y-1">
+          {numbers.slice(0, 3).map((number) => (
+            <NumberKey
+              key={number}
+              value={number}
+              onPress={(value) => handleNumberKeyPress(value)}
+            />
+          ))}
+
           <OperandKey
             value="X"
             onPress={(value) => {
-              setValues((prev) => ({
-                ...prev,
-                sign: value,
-              }))
+              handleOperandKeyPress(value)
             }}
           />
         </div>
-        <div className="grid grid-cols-4 gap-0.5">
-          <NumberKey value={6} onPress={() => {}} />
-          <NumberKey value={5} onPress={() => {}} />
-          <NumberKey value={4} onPress={() => {}} />
+        <div className="grid grid-cols-4 gap-1 gap-y-1">
+          {numbers.slice(3, 6).map((number) => (
+            <NumberKey
+              key={number}
+              value={number}
+              onPress={(value) => handleNumberKeyPress(value)}
+            />
+          ))}
           <OperandKey
             value="-"
             onPress={(value) => {
@@ -112,10 +126,14 @@ export default function Calculator() {
             }}
           />
         </div>
-        <div className="grid grid-cols-4 gap-0.5">
-          <NumberKey value={3} onPress={() => {}} />
-          <NumberKey value={2} onPress={() => {}} />
-          <NumberKey value={1} onPress={() => {}} />
+        <div className="grid grid-cols-4 gap-1 gap-y-1">
+          {numbers.slice(6, 9).map((number) => (
+            <NumberKey
+              key={number}
+              value={number}
+              onPress={(value) => handleNumberKeyPress(value)}
+            />
+          ))}
           <OperandKey
             value="+"
             onPress={(value) => {
@@ -123,11 +141,14 @@ export default function Calculator() {
             }}
           />
         </div>
-        <div className="grid grid-cols-4 gap-0.5">
+        <div className="grid grid-cols-4 gap-1 gap-y-1">
           <OperandKey value="+/-" onPress={() => {}} />
-          <NumberKey value={0} onPress={() => {}} />
+          <NumberKey
+            value={0}
+            onPress={(value) => handleNumberKeyPress(value)}
+          />
           <OperandKey value="." onPress={() => {}} />
-          <OperandKey value="=" onPress={() => {}} />
+          <OperandKey variant={"default"} value="=" onPress={() => {}} />
         </div>
       </div>
     </div>
@@ -144,7 +165,7 @@ function Preview({
   sign: null | string
 }) {
   return (
-    <div className="flex h-8 items-center justify-end rounded-lg border ring ring-border">
+    <div className="flex h-8 items-center justify-end gap-1 rounded-lg">
       <p className="text-base font-medium text-muted-foreground">
         {leftOperand}
       </p>
@@ -204,16 +225,22 @@ function NumberKey({
 function OperandKey({
   value,
   onPress,
+  className,
+  variant = "outline",
 }: {
   value: string
   onPress: (value: string) => void
-}) {
+  className?: string
+} & React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }) {
   return (
     <Button
       onClick={() => onPress(value)}
-      variant={"outline"}
+      variant={variant}
       size={"lg"}
-      className="h-14 text-xl"
+      className={cn("h-14 text-xl", className)}
     >
       {value}
     </Button>
