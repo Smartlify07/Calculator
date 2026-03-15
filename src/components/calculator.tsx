@@ -37,7 +37,7 @@ export default function Calculator() {
         }))
         return result
 
-      case sign === "X":
+      case sign === "x":
         result = parseFloat(left) * parseFloat(right)
         setValues((prev) => ({
           ...prev,
@@ -96,6 +96,18 @@ export default function Calculator() {
 
       <div className="gap grid gap-1">
         <div className="grid grid-cols-4 gap-1 gap-y-1">
+          <OperatorKey value="%" onPress={() => {}} />
+          <OperatorKey value="CE" onPress={() => {}} />
+          <OperatorKey value="C" onPress={() => {}} />
+          <OperatorKey value="DEL" onPress={() => {}} />
+        </div>
+        <div className="grid grid-cols-4 gap-1 gap-y-1">
+          <OperatorKey value="1/x" onPress={() => {}} />
+          <OperatorKey value="x^2" onPress={() => {}} />
+          <OperatorKey value="x^3" onPress={() => {}} />
+          <OperatorKey value="/" onPress={() => {}} />
+        </div>
+        <div className="grid grid-cols-4 gap-1 gap-y-1">
           {numbers.slice(0, 3).map((number) => (
             <NumberKey
               key={number}
@@ -104,8 +116,8 @@ export default function Calculator() {
             />
           ))}
 
-          <OperandKey
-            value="X"
+          <OperatorKey
+            value="x"
             onPress={(value) => {
               handleOperandKeyPress(value)
             }}
@@ -119,7 +131,7 @@ export default function Calculator() {
               onPress={(value) => handleNumberKeyPress(value)}
             />
           ))}
-          <OperandKey
+          <OperatorKey
             value="-"
             onPress={(value) => {
               handleOperandKeyPress(value)
@@ -134,7 +146,7 @@ export default function Calculator() {
               onPress={(value) => handleNumberKeyPress(value)}
             />
           ))}
-          <OperandKey
+          <OperatorKey
             value="+"
             onPress={(value) => {
               handleOperandKeyPress(value)
@@ -142,13 +154,13 @@ export default function Calculator() {
           />
         </div>
         <div className="grid grid-cols-4 gap-1 gap-y-1">
-          <OperandKey value="+/-" onPress={() => {}} />
+          <OperatorKey value="+/-" onPress={() => {}} />
           <NumberKey
             value={0}
             onPress={(value) => handleNumberKeyPress(value)}
           />
-          <OperandKey value="." onPress={() => {}} />
-          <OperandKey variant={"default"} value="=" onPress={() => {}} />
+          <OperatorKey value="." onPress={() => {}} />
+          <OperatorKey variant={"default"} value="=" onPress={() => {}} />
         </div>
       </div>
     </div>
@@ -222,7 +234,7 @@ function NumberKey({
   )
 }
 
-function OperandKey({
+function OperatorKey({
   value,
   onPress,
   className,
@@ -240,7 +252,7 @@ function OperandKey({
       onClick={() => onPress(value)}
       variant={variant}
       size={"lg"}
-      className={cn("h-14 text-xl", className)}
+      className={cn("h-14 text-2xl", className)}
     >
       {value}
     </Button>
