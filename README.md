@@ -1,21 +1,17 @@
-# React + TypeScript + Vite + shadcn/ui
+## Zensky (Calculator + Currency Conversion App)
 
-This is a template for a new Vite project with React, TypeScript, and shadcn/ui.
+### Getting Started
 
-## Adding components
+- Clone the app at https://github.com/Smartlify07/Calculator.git
+- Run the comman `pnpm install` to download all required packages
+- Run the command `pnpm dev`
 
-To add components to your app, run the following command:
+### Technologies Used
 
-```bash
-npx shadcn@latest add button
-```
+- [https://react.dev](React)
+- [https://ui.shadcn.com](Shadcn)
+- [https://tailwindcss.com/](Tailwind)
 
-This will place the ui components in the `src/components` directory.
+### Time Spent
 
-## Using components
-
-To use the components in your app, import them as follows:
-
-```tsx
-import { Button } from "@/components/ui/button"
-```
+I spent over 6 hrs on this project(5+ hrs on the calculator) (1+ hrs on the currency conversion)
