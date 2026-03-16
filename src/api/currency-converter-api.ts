@@ -24,12 +24,14 @@ export async function convertCurrencies(base: string, target: string) {
   }
 
   const data = await response.json()
-  return data
+  return data as Response
 }
 
 export function useConvertedCurrency(base: string, target: string) {
   return useQuery({
-    queryKey: ["exchange"],
+    queryKey: ["exchange", base, target],
     queryFn: () => convertCurrencies(base, target),
+    refetchOnWindowFocus: false,
+    enabled: !!base && !!target,
   })
 }
