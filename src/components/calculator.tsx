@@ -60,6 +60,8 @@ export default function Calculator() {
     }
   }
 
+  function squareNumber(left: string, right: string) {}
+
   function handleNumberKeyPress(number: number) {
     if (values.sign) {
       setValues((prev) => ({
@@ -112,8 +114,42 @@ export default function Calculator() {
         </div>
         <div className="grid grid-cols-4 gap-1 gap-y-1">
           <OperatorKey value="1/x" onPress={() => {}} />
-          <OperatorKey value="x^2" onPress={() => {}} />
-          <OperatorKey value="x^3" onPress={() => {}} />
+          <OperatorKey
+            value="^2"
+            onPress={() => {
+              if (!values.rightOperand && !values.sign) {
+                const result = Math.pow(Number(values.leftOperand), 2)
+                setValues((prev) => ({
+                  ...prev,
+                  leftOperand: `${result}`,
+                }))
+              } else {
+                const result = Math.pow(Number(values.rightOperand), 2)
+                setValues((prev) => ({
+                  ...prev,
+                  rightOperand: `${result}`,
+                }))
+              }
+            }}
+          />
+          <OperatorKey
+            value="x^3"
+            onPress={() => {
+              if (!values.rightOperand && !values.sign) {
+                const result = Math.pow(Number(values.leftOperand), 3)
+                setValues((prev) => ({
+                  ...prev,
+                  leftOperand: `${result}`,
+                }))
+              } else {
+                const result = Math.pow(Number(values.rightOperand), 3)
+                setValues((prev) => ({
+                  ...prev,
+                  rightOperand: `${result}`,
+                }))
+              }
+            }}
+          />
           <OperatorKey
             value="/"
             onPress={(value) => handleOperandKeyPress(value)}
@@ -214,13 +250,11 @@ function MainDisplay({
 }) {
   return (
     <div className="flex h-20 flex-col items-end justify-end rounded-lg bg-muted px-2 py-2 ring ring-accent">
-      {sign && (
-        <Preview
-          leftOperand={leftOperand}
-          rightOperand={rightOperand}
-          sign={sign}
-        />
-      )}
+      <Preview
+        leftOperand={leftOperand}
+        rightOperand={rightOperand}
+        sign={sign}
+      />
       {!rightOperand && <p className="text-3xl font-medium">{leftOperand}</p>}
       {rightOperand && <p className="text-3xl font-medium">{rightOperand}</p>}
     </div>

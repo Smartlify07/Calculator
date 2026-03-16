@@ -1,10 +1,15 @@
-import Calculator from "./components/calculator"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import AppTabs from "./components/app-tab"
+
+const queryClient = new QueryClient()
 
 export function App() {
   return (
-    <div className="flex min-h-svh items-center justify-center">
-      <Calculator />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="flex min-h-svh items-center justify-center">
+        <AppTabs />
+      </div>
+    </QueryClientProvider>
   )
 }
 
